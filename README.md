@@ -74,7 +74,7 @@ Only the mod DLL is needed. BepInEx and Harmony are already in the game's `BepIn
 
 ## Packaged zip
 
-Every build also writes `dist/dj3dwFollowerPatch-<version>.zip` in Thunderstore layout (DLL, `manifest.json`, `icon.png`, `README.md`). `dist/` is gitignored.
+Every build also writes `dist/dj3dwFollowerPatch-<version>.zip` in Thunderstore layout (DLL, `manifest.json`, `icon.png`, `README.md`). `dist/` is committed, so the repo holds every released build. Bump the version before a build you intend to keep, otherwise the zip for the current version is overwritten.
 
 Uses for the zip:
 
@@ -121,5 +121,5 @@ src/Plugin.cs                         BepInEx entry point and config
 src/FollowerHealPatch.cs              the Harmony patch
 package/manifest.json                 Thunderstore manifest (keep version in sync with the csproj)
 package/icon.png                      Thunderstore icon, 256x256 placeholder
-dist/                                 packaged zips, one per build (gitignored)
+dist/                                 packaged zips, one per version (committed)
 ```

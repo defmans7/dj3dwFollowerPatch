@@ -11,5 +11,3 @@ Directory.Build.user.props
 # session history (remember plugin)
 .remember/
 
-# packaged builds
-dist/
