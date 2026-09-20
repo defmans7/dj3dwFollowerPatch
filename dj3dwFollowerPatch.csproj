@@ -64,4 +64,20 @@
     <Message Importance="high" Text="Deployed $(TargetFileName) to $(PluginDeployDir)" />
   </Target>
 
+  <!-- Zip the build in Thunderstore layout into dist/. The zip can be imported into r2modman as a local mod. -->
+  <PropertyGroup>
+    <DistDir>$(MSBuildProjectDirectory)/dist</DistDir>
+    <PackageStageDir>$(BaseIntermediateOutputPath)package</PackageStageDir>
+    <PackageZip>$(DistDir)/$(AssemblyName)-$(Version).zip</PackageZip>
+  </PropertyGroup>
+
+  <Target Name="PackageZip" AfterTargets="Build">
+    <RemoveDir Directories="$(PackageStageDir)" />
+    <MakeDir Directories="$(PackageStageDir);$(DistDir)" />
+    <Copy SourceFiles="$(TargetPath);package/manifest.json;package/icon.png;README.md" DestinationFolder="$(PackageStageDir)" />
+    <Delete Files="$(PackageZip)" />
+    <ZipDirectory SourceDirectory="$(PackageStageDir)" DestinationFile="$(PackageZip)" />
+    <Message Importance="high" Text="Packaged $(PackageZip)" />
+  </Target>
+
 </Project>

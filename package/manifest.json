@@ -1,0 +1,9 @@
+{
+  "name": "dj3dwFollowerPatch",
+  "version_number": "0.1.0",
+  "website_url": "https://github.com/defmans7",
+  "description": "Tamed followers heal over time. Configurable rate and conditions.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2202"
+  ]
+}

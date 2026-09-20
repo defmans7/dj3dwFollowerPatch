@@ -72,6 +72,17 @@ The first build restores the BepInEx and Harmony packages from NuGet (the BepInE
 
 Only the mod DLL is needed. BepInEx and Harmony are already in the game's `BepInEx/core` folder, so nothing else is copied.
 
+## Packaged zip
+
+Every build also writes `dist/dj3dwFollowerPatch-<version>.zip` in Thunderstore layout (DLL, `manifest.json`, `icon.png`, `README.md`). `dist/` is gitignored.
+
+Uses for the zip:
+
+- r2modman: `Settings > Profile > Import local mod`, pick the zip. The manager then lists and manages the mod like any other.
+- Share it with other players, or upload it to Thunderstore.
+
+The version is set in two places and must match: `Version` in `dj3dwFollowerPatch.csproj` (names the zip and the DLL) and `version_number` in `package/manifest.json`. `package/icon.png` is a placeholder; replace it with a 256x256 PNG before publishing.
+
 ## Install
 
 ### r2modman / Thunderstore Mod Manager
@@ -108,4 +119,7 @@ nuget.config                          NuGet feeds (nuget.org + BepInEx)
 Directory.Build.user.props.example    template for machine-specific paths
 src/Plugin.cs                         BepInEx entry point and config
 src/FollowerHealPatch.cs              the Harmony patch
+package/manifest.json                 Thunderstore manifest (keep version in sync with the csproj)
+package/icon.png                      Thunderstore icon, 256x256 placeholder
+dist/                                 packaged zips, one per build (gitignored)
 ```
