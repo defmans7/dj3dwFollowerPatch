@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>dj3dwFollowerPatch</AssemblyName>
+    <RootNamespace>dj3dwFollowerPatch</RootNamespace>
+    <Version>0.1.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <!-- BepInEx feed lives in nuget.config; game DLLs come from the install below. -->
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <!-- Machine-specific paths. Override them in Directory.Build.user.props (gitignored) or via env vars. -->
+  <Import Project="Directory.Build.user.props" Condition="Exists('Directory.Build.user.props')" />
+  <PropertyGroup>
+    <ValheimInstall Condition="'$(ValheimInstall)' == '' and '$(VALHEIM_INSTALL)' != ''">$(VALHEIM_INSTALL)</ValheimInstall>
+    <PluginDeployDir Condition="'$(PluginDeployDir)' == '' and '$(VALHEIM_PLUGIN_DIR)' != ''">$(VALHEIM_PLUGIN_DIR)</PluginDeployDir>
+    <ValheimManaged>$(ValheimInstall)/Valheim_Data/Managed</ValheimManaged>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="src/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
+    <PackageReference Include="HarmonyX" Version="2.10.2" />
+  </ItemGroup>
+
+  <!-- Game assemblies, referenced straight from the install so the Unity version always matches. -->
+  <ItemGroup>
+    <Reference Include="assembly_valheim">
+      <HintPath>$(ValheimManaged)/assembly_valheim.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="assembly_utils">
+      <HintPath>$(ValheimManaged)/assembly_utils.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ValheimManaged)/UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ValheimManaged)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CheckValheimInstall" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="'$(ValheimInstall)' == ''" Text="ValheimInstall is not set. Copy Directory.Build.user.props.example to Directory.Build.user.props and set the path to your Valheim install." />
+    <Error Condition="!Exists('$(ValheimManaged)/assembly_valheim.dll')" Text="assembly_valheim.dll not found under '$(ValheimManaged)'. Check ValheimInstall in Directory.Build.user.props." />
+  </Target>
+
+  <!-- Copy the built DLL into the BepInEx plugins folder when PluginDeployDir is set. -->
+  <Target Name="DeployPlugin" AfterTargets="Build" Condition="'$(PluginDeployDir)' != ''">
+    <MakeDir Directories="$(PluginDeployDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginDeployDir)" />
+    <Message Importance="high" Text="Deployed $(TargetFileName) to $(PluginDeployDir)" />
+  </Target>
+
+</Project>

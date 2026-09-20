@@ -1,0 +1,12 @@
+<!-- Copy this file to Directory.Build.user.props and edit the paths. That file is gitignored. -->
+<Project>
+  <PropertyGroup>
+    <!-- Folder that contains valheim.exe and valheim_Data/. -->
+    <ValheimInstall>/mnt/p/SteamLibrary/steamapps/common/Valheim</ValheimInstall>
+
+    <!-- Where the built DLL is copied after each build. Leave empty to skip the copy.
+         r2modman profile:  /mnt/c/Users/<you>/AppData/Roaming/r2modmanPlus-local/Valheim/profiles/<profile>/BepInEx/plugins/dj3dw-FollowerPatch
+         Vanilla BepInEx:   <ValheimInstall>/BepInEx/plugins/dj3dw-FollowerPatch -->
+    <PluginDeployDir>/mnt/c/Users/<you>/AppData/Roaming/r2modmanPlus-local/Valheim/profiles/Default/BepInEx/plugins/dj3dw-FollowerPatch</PluginDeployDir>
+  </PropertyGroup>
+</Project>

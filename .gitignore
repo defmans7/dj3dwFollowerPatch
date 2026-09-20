@@ -1,0 +1,12 @@
+# build output
+bin/
+obj/
+*.user
+.vs/
+.idea/
+
+# machine-specific paths
+Directory.Build.user.props
+
+# session history (remember plugin)
+.remember/
